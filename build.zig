@@ -23,6 +23,12 @@ pub fn build(b: *std.Build) void {
     main_tests.linkLibrary(lib);
     main_tests.addIncludePath("upstream/lib/src");
     main_tests.addIncludePath("upstream/lib/include");
+    main_tests.addCSourceFiles(&[_][]const u8{
+        "src/json_parser.c",
+        "src/typescript_parser.c",
+        "src/typescript_scanner.c",
+        "src/typescript_scanner.h",
+    }, &.{});
 
     const run_main_tests = b.addRunArtifact(main_tests);
 
