@@ -13,10 +13,7 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
-    lib.addCSourceFile("upstream/lib/src/lib.c", &.{});
-    lib.addIncludePath("upstream/lib/src");
-    lib.addIncludePath("upstream/lib/include");
-    b.installArtifact(lib);
+    linkTreeSitter(lib);
 
     const main_tests = b.addTest(.{
         .root_source_file = .{ .path = "src/tests.zig" },
