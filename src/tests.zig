@@ -1,6 +1,6 @@
 const std = @import("std");
 const testing = std.testing;
-const c = @import("c.zig").c;
+const c = @import("c.zig");
 const Parser = @import("Parser.zig");
 
 // json parser copied from https://github.com/tree-sitter/tree-sitter-json/blob/40a81c01a40ac48744e0c8ccabbaba1920441199/src/parser.c
