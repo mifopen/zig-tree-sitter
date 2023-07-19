@@ -4,6 +4,8 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
+    const tree_sitter = b.dependency("tree_sitter", .{}).artifact("tree-sitter");
+
     _ = b.addModule("zig-tree-sitter", .{
         .source_file = .{ .path = "src/main.zig" },
     });
@@ -13,28 +15,24 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
-    linkTreeSitter(lib);
+    lib.linkLibrary(tree_sitter);
+    lib.installLibraryHeaders(tree_sitter);
+    b.installArtifact(lib);
 
-    const main_tests = b.addTest(.{
+    const tests = b.addTest(.{
         .root_source_file = .{ .path = "src/tests.zig" },
         .target = target,
         .optimize = optimize,
     });
-    linkTreeSitter(main_tests);
-    main_tests.addCSourceFiles(&[_][]const u8{
+    tests.linkLibrary(tree_sitter);
+    tests.installLibraryHeaders(tree_sitter);
+    tests.addCSourceFiles(&[_][]const u8{
         "src/json_parser.c",
         "src/typescript_parser.c",
         "src/typescript_scanner.c",
         "src/typescript_scanner.h",
     }, &.{});
-    const run_main_tests = b.addRunArtifact(main_tests);
+    const run_main_tests = b.addRunArtifact(tests);
     const test_step = b.step("test", "Run library tests");
     test_step.dependOn(&run_main_tests.step);
-}
-
-fn linkTreeSitter(step: *std.build.Step.Compile) void {
-    step.linkLibC();
-    step.addCSourceFile("upstream/lib/src/lib.c", &.{});
-    step.addIncludePath("upstream/lib/src");
-    step.addIncludePath("upstream/lib/include");
 }
