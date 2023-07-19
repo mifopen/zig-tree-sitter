@@ -1,5 +1,6 @@
 const std = @import("std");
 const c = @import("c.zig");
+const TreeCursor = @import("TreeCursor.zig");
 
 const Node = @This();
 
@@ -27,4 +28,8 @@ pub inline fn getChildCount(self: Node) u32 {
 
 pub inline fn getString(self: Node) []const u8 {
     return std.mem.span(c.ts_node_string(self.handle));
+}
+
+pub inline fn getCursor(self: Node) TreeCursor {
+    return TreeCursor.from(c.ts_tree_cursor_new(self.handle));
 }
