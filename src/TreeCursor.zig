@@ -13,7 +13,7 @@ pub inline fn getCurrentNode(self: TreeCursor) Node {
     return Node.from(c.ts_tree_cursor_current_node(&self.handle));
 }
 
-pub inline fn getCurrentFieldName(self: TreeCursor) []const u8 {
+pub inline fn getCurrentFieldName(self: TreeCursor) [:0]const u8 {
     return c.ts_tree_cursor_current_field_name(&self.handle);
 }
 
