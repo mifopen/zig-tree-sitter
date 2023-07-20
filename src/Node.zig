@@ -31,5 +31,5 @@ pub inline fn getString(self: Node) [:0]const u8 {
 }
 
 pub inline fn getCursor(self: Node) TreeCursor {
-    return TreeCursor.from(c.ts_tree_cursor_new(self.handle));
+    return TreeCursor.from(@constCast(&c.ts_tree_cursor_new(self.handle)));
 }

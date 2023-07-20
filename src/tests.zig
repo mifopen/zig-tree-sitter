@@ -63,3 +63,27 @@ test "typescript" {
 
     try testing.expectEqualStrings("(program (function_declaration name: (identifier) parameters: (formal_parameters (required_parameter pattern: (identifier) type: (type_annotation (predefined_type)))) return_type: (type_annotation (predefined_type)) body: (statement_block)))", string);
 }
+
+test "cursor" {
+    const parser = Parser.new();
+    defer parser.delete();
+
+    const language = tree_sitter_typescript();
+    _ = parser.setLanguage(language);
+
+    const source_code = "var a = 1;";
+    const tree = parser.parseString(source_code);
+    defer tree.delete();
+
+    const root_node = tree.getRoot();
+    const cursor = root_node.getCursor();
+    try testing.expectEqualStrings("program", cursor.getCurrentNode().getType());
+    try testing.expect(cursor.getCurrentFieldName() == null);
+    try testing.expect(cursor.getCurrentFieldId() == 0);
+    try testing.expect(!cursor.gotoParent());
+    try testing.expect(!cursor.gotoNextSibling());
+    try testing.expect(cursor.gotoFirstChild());
+    try testing.expectEqualStrings("variable_declaration", cursor.getCurrentNode().getType());
+    try testing.expect(cursor.gotoFirstChild());
+    try testing.expectEqualStrings("var", cursor.getCurrentNode().getType());
+}
