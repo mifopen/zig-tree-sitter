@@ -18,7 +18,7 @@ pub inline fn getNamedChildCount(self: Node) u32 {
     return c.ts_node_named_child_count(self.handle);
 }
 
-pub inline fn getType(self: Node) []const u8 {
+pub inline fn getType(self: Node) [:0]const u8 {
     return std.mem.span(c.ts_node_type(self.handle));
 }
 
@@ -26,7 +26,7 @@ pub inline fn getChildCount(self: Node) u32 {
     return c.ts_node_child_count(self.handle);
 }
 
-pub inline fn getString(self: Node) []const u8 {
+pub inline fn getString(self: Node) [:0]const u8 {
     return std.mem.span(c.ts_node_string(self.handle));
 }
 
