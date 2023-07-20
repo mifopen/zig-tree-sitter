@@ -21,7 +21,7 @@ pub inline fn parseString(self: Parser, string: []const u8) Tree {
         self.handle,
         null,
         string.ptr,
-        string.len,
+        @intCast(string.len),
     ).?);
 }
 
