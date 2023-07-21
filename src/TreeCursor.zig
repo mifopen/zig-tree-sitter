@@ -10,6 +10,10 @@ pub inline fn from(handle: *c.TSTreeCursor) TreeCursor {
     return TreeCursor{ .handle = handle };
 }
 
+pub inline fn delete(self: TreeCursor) void {
+    c.ts_tree_cursor_delete(self.handle);
+}
+
 pub inline fn getCurrentNode(self: TreeCursor) Node {
     return Node.from(c.ts_tree_cursor_current_node(self.handle));
 }

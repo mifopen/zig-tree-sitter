@@ -77,6 +77,8 @@ test "cursor" {
 
     const root_node = tree.getRoot();
     const cursor = root_node.getCursor();
+    defer cursor.delete();
+
     try testing.expectEqualStrings("program", cursor.getCurrentNode().getType());
     try testing.expect(cursor.getCurrentFieldName() == null);
     try testing.expect(cursor.getCurrentFieldId() == 0);
