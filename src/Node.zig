@@ -33,3 +33,19 @@ pub inline fn getString(self: Node) [:0]const u8 {
 pub inline fn getCursor(self: Node) TreeCursor {
     return TreeCursor.from(@constCast(&c.ts_tree_cursor_new(self.handle)));
 }
+
+pub inline fn getStartByte(self: Node) u32 {
+    return c.ts_node_start_byte(self.handle);
+}
+
+pub inline fn getEndByte(self: Node) u32 {
+    return c.ts_node_end_byte(self.handle);
+}
+
+pub inline fn getStartPoint(self: Node) c.TSPoint {
+    return c.ts_node_start_point(self.handle);
+}
+
+pub inline fn getEndPoint(self: Node) c.TSPoint {
+    return c.ts_node_end_point(self.handle);
+}

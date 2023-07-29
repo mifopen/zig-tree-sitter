@@ -89,3 +89,32 @@ test "cursor" {
     try testing.expect(cursor.gotoFirstChild());
     try testing.expectEqualStrings("var", cursor.getCurrentNode().getType());
 }
+
+test "positions" {
+    const parser = Parser.new();
+    defer parser.delete();
+
+    const language = tree_sitter_typescript();
+    _ = parser.setLanguage(language);
+
+    const source_code = "var a = 1;";
+    const tree = parser.parseString(source_code);
+    defer tree.delete();
+
+    const root_node = tree.getRoot();
+    const cursor = root_node.getCursor();
+    defer cursor.delete();
+
+    _ = cursor.gotoFirstChild();
+    _ = cursor.gotoFirstChild();
+    _ = cursor.gotoNextSibling();
+    _ = cursor.gotoFirstChild();
+
+    const node = cursor.getCurrentNode();
+    try testing.expectEqual(@as(u32, 4), node.getStartByte());
+    try testing.expectEqual(@as(u32, 5), node.getEndByte());
+    try testing.expectEqual(@as(u32, 0), node.getStartPoint().row);
+    try testing.expectEqual(@as(u32, 4), node.getStartPoint().column);
+    try testing.expectEqual(@as(u32, 0), node.getEndPoint().row);
+    try testing.expectEqual(@as(u32, 5), node.getEndPoint().column);
+}
