@@ -3,8 +3,8 @@
     .version = "0.0.1",
     .dependencies = .{
         .tree_sitter = .{
-            .url = "https://github.com/mifopen/tree-sitter/archive/c0642cf1279c294949a75088209c933e76439ef5.tar.gz",
-            .hash = "12206de43ab0ccdcc8bc8f5bd6607766ff4c1230d1032603513291fdddb13a36fd3d",
+            .url = "https://github.com/mifopen/tree-sitter/archive/519c04d03049e293995ae0aed8e00e4df050e952.tar.gz",
+            .hash = "122086ace677914cf888eca8535004a8d3b17924880ee3be5ad1a23d1286f3c2511a",
         },
     },
 }
