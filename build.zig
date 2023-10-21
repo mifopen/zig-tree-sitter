@@ -26,12 +26,14 @@ pub fn build(b: *std.Build) void {
     });
     tests.linkLibrary(tree_sitter);
     tests.installLibraryHeaders(tree_sitter);
-    tests.addCSourceFiles(&[_][]const u8{
-        "src/json_parser.c",
-        "src/typescript_parser.c",
-        "src/typescript_scanner.c",
-        "src/typescript_scanner.h",
-    }, &.{});
+    tests.addCSourceFiles(.{
+        .files = &[_][]const u8{
+            "src/json_parser.c",
+            "src/typescript_parser.c",
+            "src/typescript_scanner.c",
+            "src/typescript_scanner.h",
+        },
+    });
     const run_main_tests = b.addRunArtifact(tests);
     const test_step = b.step("test", "Run library tests");
     test_step.dependOn(&run_main_tests.step);
