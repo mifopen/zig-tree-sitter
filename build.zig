@@ -31,7 +31,6 @@ pub fn build(b: *std.Build) void {
             "src/json_parser.c",
             "src/typescript_parser.c",
             "src/typescript_scanner.c",
-            "src/typescript_scanner.h",
         },
     });
     const run_main_tests = b.addRunArtifact(tests);
